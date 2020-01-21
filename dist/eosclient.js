@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7,12 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import nodeFetch from 'node-fetch';
-import { TextDecoder, TextEncoder } from 'util';
-import { Api, JsonRpc } from 'eosjs';
-import { JsSignatureProvider } from 'eosjs/dist/eosjs-jssig';
-import { isValidPrivate } from 'eosjs-ecc';
-export class EosClient {
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const node_fetch_1 = __importDefault(require("node-fetch"));
+const util_1 = require("util");
+const eosjs_1 = require("eosjs");
+const eosjs_jssig_1 = require("eosjs/dist/eosjs-jssig");
+const eosjs_ecc_1 = require("eosjs-ecc");
+class EosClient {
     constructor(params) {
         const { endpoint, private_keys } = params;
         let url;
@@ -22,18 +27,18 @@ export class EosClient {
         else {
             url = EosClient.getRandomEndpoint();
         }
-        const rpc = new JsonRpc(url, { fetch: nodeFetch });
+        const rpc = new eosjs_1.JsonRpc(url, { fetch: node_fetch_1.default });
         if (private_keys) {
             private_keys.forEach((value) => {
-                if (!isValidPrivate(value)) {
+                if (!eosjs_ecc_1.isValidPrivate(value)) {
                     throw new Error('Error: private_key is invalid!');
                 }
             });
-            const api = new Api({
+            const api = new eosjs_1.Api({
                 rpc,
-                signatureProvider: new JsSignatureProvider(private_keys),
-                textDecoder: new TextDecoder(),
-                textEncoder: new TextEncoder(),
+                signatureProvider: new eosjs_jssig_1.JsSignatureProvider(private_keys),
+                textDecoder: new util_1.TextDecoder(),
+                textEncoder: new util_1.TextEncoder(),
             });
             this._client = { rpc, api };
         }
@@ -189,6 +194,7 @@ export class EosClient {
         });
     }
 }
+exports.EosClient = EosClient;
 EosClient.ENDPOINTS = [
     "http://node.eosflare.io",
     "https://node.eosflare.io",
@@ -246,4 +252,3 @@ EosClient.generteTransferActions = (from, to, quantity, memo, code, auths, num =
         },
     });
 };
-//# sourceMappingURL=eosclient.js.map
