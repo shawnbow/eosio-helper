@@ -1,6 +1,6 @@
 {
   "name": "eosio-helper",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Shawn Bow <shawnbow81@gmail.com>",
   "description": "EOSIO helper nodejs library",
   "keywords": [
