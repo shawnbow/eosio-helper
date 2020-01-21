@@ -15,10 +15,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const node_fetch_1 = __importDefault(require("node-fetch"));
 const util_1 = require("util");
 const eosjs_1 = require("eosjs");
+const eosjs_jssig_1 = require("eosjs/dist/eosjs-jssig");
+const eosjs_ecc_1 = require("eosjs-ecc");
 class EosClient {
     constructor(params) {
-        const { endpoint, signatureProvider } = params;
-        let url = "";
+        const { endpoint, private_keys } = params;
+        let url;
         if (endpoint && endpoint.match(/(https?):[/]{2}([^:]*)(?::([\d]+))?/)) {
             url = endpoint;
         }
@@ -26,13 +28,23 @@ class EosClient {
             url = EosClient.getRandomEndpoint();
         }
         const rpc = new eosjs_1.JsonRpc(url, { fetch: node_fetch_1.default });
-        const api = signatureProvider === undefined ? undefined : new eosjs_1.Api({
-            rpc,
-            signatureProvider,
-            textDecoder: new util_1.TextDecoder(),
-            textEncoder: new util_1.TextEncoder(),
-        });
-        this._client = { rpc, api };
+        if (private_keys) {
+            private_keys.forEach((value) => {
+                if (!eosjs_ecc_1.isValidPrivate(value)) {
+                    throw new Error('Error: private_key is invalid!');
+                }
+            });
+            const api = new eosjs_1.Api({
+                rpc,
+                signatureProvider: new eosjs_jssig_1.JsSignatureProvider(private_keys),
+                textDecoder: new util_1.TextDecoder(),
+                textEncoder: new util_1.TextEncoder(),
+            });
+            this._client = { rpc, api };
+        }
+        else {
+            this._client = { rpc };
+        }
     }
     getRpc() {
         return this._client.rpc;

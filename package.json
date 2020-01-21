@@ -15,11 +15,11 @@
   "main": "dist/index.js",
   "scripts": {
     "build:release": "rm -rf dist && tsc -p ./tsconfig.release.json",
-    "build": "rm -rf dist && tsc -p ./tsconfig.json",
-    "start": "ts-node ./src/index.ts"
+    "build": "rm -rf dist && tsc -p ./tsconfig.json"
   },
   "dependencies": {
     "eosjs": "^20.0.3",
+    "eosjs-ecc": "^4.0.7",
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {

@@ -1,5 +1,4 @@
 import { Api, JsonRpc } from 'eosjs';
-import { JsSignatureProvider } from 'eosjs/dist/eosjs-jssig';
 export declare class EosClient {
     static readonly ENDPOINTS: string[];
     static readonly getRandomEndpoint: () => string;
@@ -10,7 +9,7 @@ export declare class EosClient {
     private _client;
     constructor(params: {
         endpoint?: string;
-        signatureProvider?: JsSignatureProvider;
+        private_keys?: Array<string>;
     });
     getRpc(): JsonRpc;
     getApi(): Api;

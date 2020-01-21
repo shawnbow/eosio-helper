@@ -2,7 +2,7 @@ import nodeFetch from 'node-fetch';
 import { TextDecoder, TextEncoder } from 'util';
 import {Api, JsonRpc} from 'eosjs';
 import { JsSignatureProvider } from 'eosjs/dist/eosjs-jssig';
-
+import { isValidPrivate } from 'eosjs-ecc';
 
 export class EosClient {
   static readonly ENDPOINTS = [
@@ -65,12 +65,12 @@ export class EosClient {
     });
   }
 
-  private _client: { rpc: JsonRpc, api: Api | undefined };
+  private _client: { rpc: JsonRpc, api?: Api };
 
-  constructor( params: {endpoint?: string, signatureProvider?: JsSignatureProvider} ) {
-    const {endpoint, signatureProvider} = params;
+  constructor( params: {endpoint?: string, private_keys?: Array<string>} ) {
+    const {endpoint, private_keys} = params;
 
-    let url: string = "";
+    let url: string;
     if (endpoint && endpoint.match(/(https?):[/]{2}([^:]*)(?::([\d]+))?/)) {
       url = endpoint;      
     } else {
@@ -78,13 +78,22 @@ export class EosClient {
     }
 
     const rpc = new JsonRpc(url, { fetch: nodeFetch as any });
-    const api = signatureProvider === undefined ? undefined : new Api({
-      rpc,
-      signatureProvider,
-      textDecoder: new TextDecoder(),
-      textEncoder: new TextEncoder(),
-    });
-    this._client = {rpc, api};
+    if (private_keys) {
+      private_keys.forEach((value)=>{
+        if (!isValidPrivate(value)) {
+          throw new Error('Error: private_key is invalid!');
+        }
+      });
+      const api = new Api({
+        rpc,
+        signatureProvider: new JsSignatureProvider(private_keys),
+        textDecoder: new TextDecoder(),
+        textEncoder: new TextEncoder(),
+      });
+      this._client = { rpc, api };
+    } else {
+      this._client = { rpc };
+    }
   }
 
   getRpc() {
