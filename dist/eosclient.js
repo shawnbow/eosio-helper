@@ -252,3 +252,4 @@ EosClient.generteTransferActions = (from, to, quantity, memo, code, auths, num =
         },
     });
 };
+//# sourceMappingURL=eosclient.js.map

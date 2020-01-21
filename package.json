@@ -14,7 +14,7 @@
   },
   "main": "dist/index.js",
   "scripts": {
-    "build:release": "rm -rf dist && tsc -p ./tsconfig.release.json",
+    "test": "ts-node ./src/test.ts",
     "build": "rm -rf dist && tsc -p ./tsconfig.json"
   },
   "dependencies": {
