@@ -10,10 +10,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const eosclient_1 = require("./eosclient");
+// Check endpoints api version
 (() => __awaiter(void 0, void 0, void 0, function* () {
-    const client = new eosclient_1.EosClient({});
-    console.log(client.getRpc().endpoint);
-    const info = yield client.getInfo();
-    console.log(JSON.stringify(info, null, 2));
+    const endpoints_v2 = new Array();
+    for (let i = 0; i < eosclient_1.EosClient.ENDPOINTS.length; i++) {
+        const endpoint = eosclient_1.EosClient.ENDPOINTS[i];
+        const client = new eosclient_1.EosClient({ endpoint });
+        const info = yield client.getInfo();
+        console.log(endpoint, !info ? "ERROR" : info.server_version_string);
+        if (info && info.server_version_string.includes("v2")) {
+            endpoints_v2.push(endpoint);
+        }
+    }
+    console.log(JSON.stringify(endpoints_v2, null, 2));
 }))();
 //# sourceMappingURL=test.js.map

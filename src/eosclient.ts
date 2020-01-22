@@ -5,11 +5,32 @@ import { JsSignatureProvider } from 'eosjs/dist/eosjs-jssig';
 import { isValidPrivate } from 'eosjs-ecc';
 
 export class EosClient {
-  static readonly ENDPOINTS = [
+  static readonly ENDPOINTS_V2 = [
+    "https://mainnet.libertyblock.io:7777",
+    "http://api.tokenika.io",
+    "https://api.tokenika.io",
     "http://api.eoseoul.io",
     "https://api.eoseoul.io",
     "http://node.eosflare.io",
     "https://node.eosflare.io",
+    "http://eos.greymass.com",
+    "https://eos.greymass.com",
+    "http://api.eosrio.io",
+    "https://api.eosrio.io",
+    "http://api.main.alohaeos.com",
+    "https://api.main.alohaeos.com",
+    "http://api.eosn.io",
+    "https://api.eosn.io",
+    "https://mainnet.meet.one",
+    "https://mainnet-tw.meet.one",
+    "https://nodes.get-scatter.com",
+    "http://api.eossweden.se",
+    "https://api.eossweden.se",
+    "http://api.eossweden.org",
+    "https://api.eossweden.org",
+  ];
+
+  static readonly ENDPOINTS_V1 = [
     "http://eos.eoscafeblock.com",
     "https://eos.eoscafeblock.com",
     "http://api-mainnet.starteos.io",
@@ -18,52 +39,44 @@ export class EosClient {
     "https://eos.infstones.io",
     "https://api.zbeos.com",
     "https://node1.zbeos.com",
-    "http://eos.greymass.com",
-    "https://eos.greymass.com",
     "http://peer1.eoshuobipool.com:8181",
     "http://peer2.eoshuobipool.com:8181",
-    "https://api.eosrio.io",
-    "http://api.main.alohaeos.com",
-    "https://api.main.alohaeos.com",
     "https://eosbp.atticlab.net",
-    "https://api.redpacketeos.com",
     "http://mainnet.eos.dfuse.io",
     'https://mainnet.eos.dfuse.io',
     "https://eospush.tokenpocket.pro",
-    "https://api.eosn.io",
     "http://openapi.eos.ren",
-    "https://mainnet.meet.one",
-    "https://nodes.get-scatter.com",
     "https://api1.eosasia.one",
-    "https://mainnet-tw.meet.one",
     'https://api.eosdetroit.io',
     "http://eos.newdex.one",
     "https://eos.newdex.one",
     "https://api.eosnewyork.io",
-    "https://api.eossweden.se",
-    "https://api.eossweden.org",
-    "https://mainnet.eoscannon.io",
     "https://api.helloeos.com.cn",
     "https://mainnet.eoscanada.com",
     "https://api.eoslaomao.com",
   ];
 
-  static readonly getRandomEndpoint = (): string => {
-    const index = Math.floor(Math.random() * EosClient.ENDPOINTS.length);
-    return EosClient.ENDPOINTS[index];
+  static readonly ENDPOINTS = [...EosClient.ENDPOINTS_V1, ...EosClient.ENDPOINTS_V2];
+
+  static readonly getRandomEndpoint = (v?: number): string => {
+    if (v === 1) {
+      const index = Math.floor(Math.random() * EosClient.ENDPOINTS_V1.length);
+      return EosClient.ENDPOINTS_V1[index];
+    } else if (v === 2) {
+      const index = Math.floor(Math.random() * EosClient.ENDPOINTS_V2.length);
+      return EosClient.ENDPOINTS_V2[index];
+    } else {
+      const index = Math.floor(Math.random() * EosClient.ENDPOINTS.length);
+      return EosClient.ENDPOINTS[index];  
+    }
   }
 
-  static readonly generteTransferActions = (from: string, to: string, quantity: string, memo: string, code: string, auths: Array<{actor:string, permission: string}>, num: number = 1): Array<any> => {
+  static readonly makeActions = (code: string, action: string, data: any, auths: Array<{actor:string, permission: string}>, num: number = 1): Array<any> => {
     return Array(num).fill({
       account: code,
-      name: 'transfer',
+      name: action,
       authorization: auths,
-      data: {
-        from,
-        to,
-        quantity,
-        memo,
-      },
+      data,
     });
   }
 
@@ -181,7 +194,6 @@ export class EosClient {
       console.error("eos api undefined");
       return false;
     }
-
     try {
       await this.getApi().transact(
       {
@@ -201,63 +213,27 @@ export class EosClient {
   }
 
   async transfer(from: string, to: string, quantity: string, memo: string, code: string, auths: Array<{actor:string, permission: string}>): Promise<boolean> {
-    return await this.pushTransaction(EosClient.generteTransferActions(from, to, quantity, memo, code, auths, 1));
+    const actions = EosClient.makeActions(code, "transfer", { from, to, quantity, memo}, auths, 1);
+    return await this.pushTransaction(actions);
   }
 
   async buyrambytes(payer: string, receiver: number, bytes: number, auths: Array<any>): Promise<boolean> {
-    const action = {
-      account: 'eosio',
-      name: 'buyrambytes',
-      authorization: auths,
-      data: {
-        payer,
-        receiver,
-        bytes,
-      },
-    };
-    return await this.pushTransaction([action]);
+    const actions = EosClient.makeActions('eosio', 'buyrambytes', { payer, receiver, bytes}, auths, 1);
+    return await this.pushTransaction(actions);
   }
 
   async sellram(account: string, bytes: number, auths: Array<any>): Promise<boolean> {
-    const action = {
-      account: 'eosio',
-      name: 'sellram',
-      authorization: auths,
-      data: {
-        account: account,
-        bytes,
-      },
-    };
-    return await this.pushTransaction([action]);
+    const actions = EosClient.makeActions('eosio', 'sellram', { account, bytes}, auths, 1);
+    return await this.pushTransaction(actions);
   }
 
   async delegatebw(from: string, receiver: string, stake_net_quantity: string, stake_cpu_quantity: string, auths: Array<any>): Promise<boolean> {
-    const action = {
-      account: 'eosio',
-      name: 'delegatebw',
-      authorization: auths,
-      data: {
-        from,
-        receiver,
-        stake_net_quantity,
-        stake_cpu_quantity,
-      },
-    };
-    return await this.pushTransaction([action]);
+    const actions = EosClient.makeActions('eosio', 'delegatebw', { from, receiver, stake_net_quantity, stake_cpu_quantity}, auths, 1);
+    return await this.pushTransaction(actions);
   }
 
   async undelegatebw(from: string, receiver: string, unstake_net_quantity: string, unstake_cpu_quantity: string, auths: Array<any>): Promise<boolean> {
-    const action = {
-      account: 'eosio',
-      name: 'undelegatebw',
-      authorization: auths,
-      data: {
-        from,
-        receiver,
-        unstake_net_quantity,
-        unstake_cpu_quantity,
-      },
-    };
-    return await this.pushTransaction([action]);
+    const actions = EosClient.makeActions('eosio', 'undelegatebw', { from, receiver, unstake_net_quantity, unstake_cpu_quantity}, auths, 1);
+    return await this.pushTransaction(actions);
   }
 }

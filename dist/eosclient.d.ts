@@ -1,8 +1,10 @@
 import { Api, JsonRpc } from 'eosjs';
 export declare class EosClient {
+    static readonly ENDPOINTS_V2: string[];
+    static readonly ENDPOINTS_V1: string[];
     static readonly ENDPOINTS: string[];
-    static readonly getRandomEndpoint: () => string;
-    static readonly generteTransferActions: (from: string, to: string, quantity: string, memo: string, code: string, auths: {
+    static readonly getRandomEndpoint: (v?: number) => string;
+    static readonly makeActions: (code: string, action: string, data: any, auths: {
         actor: string;
         permission: string;
     }[], num?: number) => any[];
