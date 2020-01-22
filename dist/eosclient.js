@@ -52,6 +52,17 @@ class EosClient {
     getApi() {
         return this._client.api;
     }
+    getInfo() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield this.getRpc().get_info();
+            }
+            catch (e) {
+                console.error(e.toString());
+                return null;
+            }
+        });
+    }
     getAccount(account) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -196,6 +207,8 @@ class EosClient {
 }
 exports.EosClient = EosClient;
 EosClient.ENDPOINTS = [
+    "http://api.eoseoul.io",
+    "https://api.eoseoul.io",
     "http://node.eosflare.io",
     "https://node.eosflare.io",
     "http://eos.eoscafeblock.com",

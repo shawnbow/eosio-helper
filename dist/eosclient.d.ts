@@ -13,6 +13,7 @@ export declare class EosClient {
     });
     getRpc(): JsonRpc;
     getApi(): Api;
+    getInfo(): Promise<any>;
     getAccount(account: string): Promise<any>;
     getBalance(code: string, account: string, symbol: string): Promise<{
         balance: number;

@@ -12,7 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const eosclient_1 = require("./eosclient");
 (() => __awaiter(void 0, void 0, void 0, function* () {
     const client = new eosclient_1.EosClient({});
-    const eosio_info = yield client.getAccount("eosio");
-    console.log(JSON.stringify(eosio_info, null, 2));
+    console.log(client.getRpc().endpoint);
+    const info = yield client.getInfo();
+    console.log(JSON.stringify(info, null, 2));
 }))();
 //# sourceMappingURL=test.js.map

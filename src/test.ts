@@ -2,7 +2,8 @@ import { EosClient } from './eosclient';
 
 (async () => {
   const client = new EosClient({});
-  const eosio_info = await client.getAccount("eosio");
-  console.log(JSON.stringify(eosio_info, null, 2));
+  console.log(client.getRpc().endpoint);
+  const info = await client.getInfo();
+  console.log(JSON.stringify(info, null, 2));
 })();
 
