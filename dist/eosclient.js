@@ -171,6 +171,12 @@ class EosClient {
 }
 exports.EosClient = EosClient;
 EosClient.ENDPOINTS_V2 = [
+    "http://eos.eosphere.io",
+    "http://api.main.alohaeos.com",
+    "https://api.main.alohaeos.com",
+    "http://mainnet.eos.dfuse.io",
+    "https://mainnet.eos.dfuse.io",
+    "https://mainnet.eoscanada.com",
     "https://mainnet.libertyblock.io:7777",
     "http://api.tokenika.io",
     "https://api.tokenika.io",
@@ -182,12 +188,8 @@ EosClient.ENDPOINTS_V2 = [
     "https://eos.greymass.com",
     "http://api.eosrio.io",
     "https://api.eosrio.io",
-    "http://api.main.alohaeos.com",
-    "https://api.main.alohaeos.com",
     "http://api.eosn.io",
     "https://api.eosn.io",
-    "https://mainnet.meet.one",
-    "https://mainnet-tw.meet.one",
     "https://nodes.get-scatter.com",
     "http://api.eossweden.se",
     "https://api.eossweden.se",
@@ -203,11 +205,9 @@ EosClient.ENDPOINTS_V1 = [
     "https://eos.infstones.io",
     "https://api.zbeos.com",
     "https://node1.zbeos.com",
-    "http://peer1.eoshuobipool.com:8181",
-    "http://peer2.eoshuobipool.com:8181",
+    // "http://peer1.eoshuobipool.com:8181",
+    // "http://peer2.eoshuobipool.com:8181",
     "https://eosbp.atticlab.net",
-    "http://mainnet.eos.dfuse.io",
-    'https://mainnet.eos.dfuse.io',
     "https://eospush.tokenpocket.pro",
     "http://openapi.eos.ren",
     "https://api1.eosasia.one",
@@ -216,8 +216,9 @@ EosClient.ENDPOINTS_V1 = [
     "https://eos.newdex.one",
     "https://api.eosnewyork.io",
     "https://api.helloeos.com.cn",
-    "https://mainnet.eoscanada.com",
     "https://api.eoslaomao.com",
+    "https://mainnet.meet.one",
+    "https://mainnet-tw.meet.one",
 ];
 EosClient.ENDPOINTS = [...EosClient.ENDPOINTS_V1, ...EosClient.ENDPOINTS_V2];
 EosClient.getRandomEndpoint = (v) => {
