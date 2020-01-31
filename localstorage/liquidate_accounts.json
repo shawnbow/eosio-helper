@@ -1,0 +1,12 @@
+[
+  {
+    "name": "account1",
+    "privateKey": "5KWnsJRukKfD9wMXt3p66vE1whMybsJtaraEm8wSZzdedycGHqF",
+    "publicKey": "EOS7en6b3kEkg5xDpvfptYQmxEJv8BFuNmEBfq8LhwYD34ZvWxLAu"
+  },
+  {
+    "name": "account2",
+    "privateKey": "5KV12NAcyTqwv9VsGmoE4MGiY88V6bzCNCertuF2HirGtWshMZa",
+    "publicKey": "EOS6xybrGpWNdKTxVXEamBN9QEjzrjGpJGwiqtCd4s6kmUdN7QDkh"
+  }
+]
