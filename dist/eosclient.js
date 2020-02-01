@@ -171,6 +171,9 @@ class EosClient {
 }
 exports.EosClient = EosClient;
 EosClient.ENDPOINTS_V2 = [
+    "http://eos.newdex.one",
+    "https://eos.newdex.one",
+    "https://api.eoslaomao.com",
     "http://eos.eosphere.io",
     "http://api.main.alohaeos.com",
     "https://api.main.alohaeos.com",
@@ -186,8 +189,8 @@ EosClient.ENDPOINTS_V2 = [
     "https://node.eosflare.io",
     "http://eos.greymass.com",
     "https://eos.greymass.com",
-    "http://api.eosrio.io",
-    "https://api.eosrio.io",
+    // "http://api.eosrio.io",
+    // "https://api.eosrio.io",
     "http://api.eosn.io",
     "https://api.eosn.io",
     "https://nodes.get-scatter.com",
@@ -212,11 +215,8 @@ EosClient.ENDPOINTS_V1 = [
     "http://openapi.eos.ren",
     "https://api1.eosasia.one",
     'https://api.eosdetroit.io',
-    "http://eos.newdex.one",
-    "https://eos.newdex.one",
     "https://api.eosnewyork.io",
     "https://api.helloeos.com.cn",
-    "https://api.eoslaomao.com",
     "https://mainnet.meet.one",
     "https://mainnet-tw.meet.one",
 ];
