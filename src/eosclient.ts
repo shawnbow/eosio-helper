@@ -6,6 +6,8 @@ import { isValidPrivate } from 'eosjs-ecc';
 
 export class EosClient {
   static readonly ENDPOINTS_V2 = [
+    "https://eospush.tokenpocket.pro",
+    "http://openapi.eos.ren",
     "http://eos.newdex.one",
     "https://eos.newdex.one",
     "https://api.eoslaomao.com",
@@ -24,8 +26,6 @@ export class EosClient {
     "https://node.eosflare.io",
     "http://eos.greymass.com",
     "https://eos.greymass.com",
-    // "http://api.eosrio.io",
-    // "https://api.eosrio.io",
     "http://api.eosn.io",
     "https://api.eosn.io",
     "https://nodes.get-scatter.com",
@@ -33,6 +33,8 @@ export class EosClient {
     "https://api.eossweden.se",
     "http://api.eossweden.org",
     "https://api.eossweden.org",
+    // "http://api.eosrio.io",
+    // "https://api.eosrio.io",
   ];
 
   static readonly ENDPOINTS_V1 = [
@@ -47,8 +49,6 @@ export class EosClient {
     // "http://peer1.eoshuobipool.com:8181",
     // "http://peer2.eoshuobipool.com:8181",
     "https://eosbp.atticlab.net",
-    "https://eospush.tokenpocket.pro",
-    "http://openapi.eos.ren",
     "https://api1.eosasia.one",
     'https://api.eosdetroit.io',
     "https://api.eosnewyork.io",
