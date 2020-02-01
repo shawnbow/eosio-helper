@@ -12,6 +12,7 @@ export class EosClient {
     "https://eos.newdex.one",
     "https://api.eoslaomao.com",
     "http://eos.eosphere.io",
+    "https://eos.eosphere.io",
     "http://api.main.alohaeos.com",
     "https://api.main.alohaeos.com",
     "http://mainnet.eos.dfuse.io",
@@ -38,6 +39,13 @@ export class EosClient {
   ];
 
   static readonly ENDPOINTS_V1 = [
+    "http://mainnet.genereos.io",
+    "https://mainnet.genereos.io",
+    "http://api.eosdublin.io",
+    "https://api.eosdublin.io",
+    "http://bp.cryptolions.io",
+    "https://bp.cryptolions.io",
+    "https://apinode.eosweb.net",
     "http://eos.eoscafeblock.com",
     "https://eos.eoscafeblock.com",
     "http://api-mainnet.starteos.io",
