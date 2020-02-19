@@ -3,6 +3,7 @@ import { TextDecoder, TextEncoder } from 'util';
 import {Api, JsonRpc} from 'eosjs';
 import { JsSignatureProvider } from 'eosjs/dist/eosjs-jssig';
 import { isValidPrivate } from 'eosjs-ecc';
+import { Serialize, Numeric } from 'eosjs';
 
 export class EosClient {
   static readonly ENDPOINTS_V2 = [
@@ -66,6 +67,24 @@ export class EosClient {
   ];
 
   static readonly ENDPOINTS = [...EosClient.ENDPOINTS_V1, ...EosClient.ENDPOINTS_V2];
+
+  static readonly nameToValue = (name: string): string => {
+    const sb = new Serialize.SerialBuffer({
+      textEncoder: new TextEncoder(),
+      textDecoder: new TextDecoder()
+    });
+    sb.pushName(name);
+    return Numeric.signedBinaryToDecimal(sb.getUint8Array(8));
+  }
+
+  static readonly valueToName = (value: string): string => {
+    const sb = new Serialize.SerialBuffer({
+      textEncoder: new TextEncoder(),
+      textDecoder: new TextDecoder()
+    });
+    sb.pushArray(Numeric.signedDecimalToBinary(8, value));
+    return sb.getName();
+  }
 
   static readonly getRandomEndpoint = (v?: number): string => {
     if (v === 1) {
